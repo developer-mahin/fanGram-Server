@@ -7,16 +7,28 @@ import AppError from '../../utils/AppError';
 const loginUser = catchAsync(async (req, res) => {
   const result = await authServices.loginUserInToDB(req.body);
 
-  const { accessToken, needsPasswordChange } = result;
+  const { accessToken, refreshToken } = result;
 
   sendResponse(res, {
     status: httpStatus.OK,
     success: true,
-    message: 'Your are login successfully',
+    message: 'Your are logged in successfully',
     data: {
       accessToken,
-      needsPasswordChange,
+      refreshToken,
     },
+  });
+});
+
+const refreshToken = catchAsync(async (req, res) => {
+  const { refreshToken } = req.cookies;
+  const result = await authServices.refreshToken(refreshToken);
+
+  sendResponse(res, {
+    status: httpStatus.OK,
+    success: true,
+    message: 'Access token is retrieved successfully!',
+    data: result,
   });
 });
 
@@ -28,7 +40,7 @@ const changePassword = catchAsync(async (req, res) => {
   sendResponse(res, {
     status: httpStatus.OK,
     success: true,
-    message: 'successfully updated Password',
+    message: 'Successfully updated Password',
     data: result,
   });
 });
@@ -51,6 +63,7 @@ const getMyProfile = catchAsync(async (req, res) => {
 
 export const authControllers = {
   loginUser,
+  refreshToken,
   changePassword,
   getMyProfile,
 };

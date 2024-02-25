@@ -7,6 +7,7 @@ import { createJwtToken } from '../../utils/createToken';
 import { verifyToken } from '../../utils/verifyToken';
 import User from '../user/user.model';
 import { TAuthentication } from './auth.interface';
+import { Types } from 'mongoose';
 
 const loginUserInToDB = async (payload: TAuthentication) => {
   const { email, password } = payload;
@@ -31,20 +32,77 @@ const loginUserInToDB = async (payload: TAuthentication) => {
     throw new AppError(httpStatus.FORBIDDEN, 'password not matched');
   }
 
-  const userDate = {
-    userId: user?.id,
+  const jwtPayload = {
+    userId: user?._id,
+    email: user?.email,
     role: user?.role,
   };
 
   const accessToken = createJwtToken(
-    userDate,
+    jwtPayload,
+    config.jwt_access_secret as string,
+    config.jwt_access_expires_in as string,
+  );
+
+  const refreshToken = createJwtToken(
+    jwtPayload,
+    config.jwt_refresh_secret as string,
+    config.jwt_refresh_expires_in as string,
+  );
+
+  return {
+    accessToken,
+    refreshToken,
+  };
+};
+
+const refreshToken = async (token: string) => {
+  // checking if the given token is valid
+  const decoded = verifyToken(token, config.jwt_refresh_secret as string);
+
+  const { userId, iat } = decoded;
+
+  // checking if the user is exist
+  const user = await User.isUserExist(userId);
+
+  if (!user) {
+    throw new AppError(httpStatus.NOT_FOUND, 'This user is not found !');
+  }
+  // checking if the user is already deleted
+  const isDeleted = user?.isDeleted;
+
+  if (isDeleted) {
+    throw new AppError(httpStatus.FORBIDDEN, 'This user is deleted !');
+  }
+
+  // checking if the user is blocked
+  const userStatus = user?.status;
+
+  if (userStatus === 'blocked') {
+    throw new AppError(httpStatus.FORBIDDEN, 'This user is blocked ! !');
+  }
+
+  if (
+    user.passwordUpdatedAt &&
+    User.isJWTIssuedBeforePasswordChanged(user.passwordUpdatedAt, iat as number)
+  ) {
+    throw new AppError(httpStatus.UNAUTHORIZED, 'You are not authorized !');
+  }
+
+  const jwtPayload = {
+    userId: user._id as Types.ObjectId,
+    email: user?.email,
+    role: user?.role,
+  };
+
+  const accessToken = createJwtToken(
+    jwtPayload,
     config.jwt_access_secret as string,
     config.jwt_access_expires_in as string,
   );
 
   return {
     accessToken,
-    needsPasswordChange: user?.needsPasswordChange,
   };
 };
 
@@ -104,6 +162,7 @@ const getMyProfileFromDB = async (token: string) => {
 
 export const authServices = {
   loginUserInToDB,
+  refreshToken,
   changePassword,
   getMyProfileFromDB,
 };

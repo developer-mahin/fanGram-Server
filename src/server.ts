@@ -10,7 +10,7 @@ let server: Server;
 async function main() {
   try {
     await mongoose.connect(config.database_url as string).then(() => {
-      console.log('database connected successfully');
+      console.log('Database connected successfully');
     });
     seedSuperAdmin();
     server = app.listen(config.port, () => {

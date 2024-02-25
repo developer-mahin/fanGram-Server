@@ -1,14 +1,18 @@
 /* eslint-disable no-unused-vars */
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { USER_ROLE } from '../../constant';
 
 export type TUser = {
+  _id?: Types.ObjectId;
+  name: string;
+  gender: 'male' | 'female' | 'other';
+  dateOfBirth: string;
   email: string;
+  contactNo: string;
   password: string;
   isDeleted: boolean;
-  role: 'manager' | 'seller' | 'superAdmin';
+  role: 'admin' | 'user' | 'superAdmin';
   status: 'in-progress' | 'blocked';
-  needsPasswordChange: boolean;
   passwordUpdatedAt?: Date;
 };
 

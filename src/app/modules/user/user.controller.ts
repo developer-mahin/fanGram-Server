@@ -2,31 +2,20 @@ import httpStatus from 'http-status';
 import catchAsync from '../../utils/CatchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { userServices } from './user.service';
-import AppError from '../../utils/AppError';
 
-const createManager = catchAsync(async (req, res) => {
-  const { password, manager: data } = req.body;
-  if (!password || !data) {
-    throw new AppError(404, 'Add valid info');
-  }
-
-  const result = await userServices.createManagerIntoDB(password, data);
+const createAdmin = catchAsync(async (req, res) => {
+  const result = await userServices.createAdminIntoDB(req.body);
 
   sendResponse(res, {
     status: httpStatus.CREATED,
     success: true,
-    message: 'User created successful please login',
+    message: 'Admin created successful',
     data: result,
   });
 });
 
-const createSeller = catchAsync(async (req, res) => {
-  const { password, seller: data } = req.body;
-  if (!password || !data) {
-    throw new AppError(404, 'Add valid info');
-  }
-
-  const result = await userServices.createSellerIntoDB(password, data);
+const registerUser = catchAsync(async (req, res) => {
+  const result = await userServices.createUserIntoDB(req.body);
 
   sendResponse(res, {
     status: httpStatus.CREATED,
@@ -37,6 +26,6 @@ const createSeller = catchAsync(async (req, res) => {
 });
 
 export const userController = {
-  createSeller,
-  createManager,
+  createAdmin,
+  registerUser,
 };

@@ -4,8 +4,23 @@ import validateRequest from '../../middlewares/valdateRequest';
 import { auth } from '../../middlewares/auth';
 import { USER_ROLE } from '../../constant';
 import { authControllers } from './auth.controller';
+import { userController } from '../user/user.controller';
+import { UserValidation } from '../user/user.validation';
 
 const router = Router();
+
+router.post(
+  '/create-admin',
+  auth(USER_ROLE.superAdmin),
+  validateRequest(UserValidation.userValidationSchema),
+  userController.createAdmin,
+);
+
+router.post(
+  '/register-user',
+  validateRequest(UserValidation.userValidationSchema),
+  userController.registerUser,
+);
 
 router.post(
   '/login',

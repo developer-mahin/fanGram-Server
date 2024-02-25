@@ -4,6 +4,8 @@ import User from '../modules/user/user.model';
 const superAdmin = {
   email: config.super_admin_email,
   needsPasswordChange: false,
+  contactNo: '1234567',
+  gender: 'male',
   password: config.super_admin_password,
   role: 'superAdmin',
   isDeleted: false,
