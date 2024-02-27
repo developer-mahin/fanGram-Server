@@ -1,17 +1,38 @@
 import { Schema, model } from 'mongoose';
-import { TCelebrity } from './celebrity.interface';
+import { TAddonCost, TCelebrity, TFaq, TOffer } from './celebrity.interface';
+
+const addonCostSchema = new Schema<TAddonCost>({
+  remove_logo: { type: Number },
+  hd_video: { type: Number },
+});
+
+const offersSchema = new Schema<TOffer>({
+  freeDm: { type: Boolean, default: false },
+  discount: { type: Number },
+  couponCode: { type: String },
+  dmDiscount: { type: Number },
+});
+
+const faqSchema = new Schema<TFaq>({
+  question: { type: String },
+  answer: { type: String },
+});
 
 const celebritySchema = new Schema<TCelebrity>(
   {
-    celebrity_name: {
+    celebrityName: {
       type: String,
       required: [true, 'Celebrity name required'],
     },
-    booking_price: { type: Number, required: [true, 'Booking price required'] },
-    meeting_price: { type: Number, required: [true, 'Meeting price required'] },
-    early_response: {
-      type: Boolean,
-      default: false,
+    bookingPrice: { type: Number, required: [true, 'Booking price required'] },
+    meetingPrice: { type: Number, required: [true, 'Meeting price required'] },
+    addonCost: addonCostSchema,
+    offers: offersSchema,
+    featured: { type: Boolean, default: false },
+    faq: faqSchema,
+    responseIn: {
+      type: String,
+      required: [true, 'Response Time is required'],
     },
     imgUrl: { type: String, required: [true, 'Image URL required'] },
     videoUrl: { type: String },
@@ -27,13 +48,13 @@ const celebritySchema = new Schema<TCelebrity>(
 
 celebritySchema.pre('find', async function (next) {
   this.find({
-    $or: [{ isDelete: { $ne: true } }],
+    $or: [{ isDeleted: { $ne: true } }],
   });
   next();
 });
 
 celebritySchema.pre('findOne', async function (next) {
-  this.findOne({ isDelete: { $ne: true } });
+  this.findOne({ isDeleted: { $ne: true } });
   next();
 });
 

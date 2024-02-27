@@ -21,12 +21,12 @@ const createOrderCelebrityInDB = async (payload: TOrderCelebrity) => {
   //   product_image: secure_url,
   // };
 
-  const celebrity = await Celebrity.findById(payload.celebrity_id);
+  const celebrity = await Celebrity.findById(payload.celebrityId);
 
   if (!celebrity) {
     throw new AppError(httpStatus.NOT_FOUND, 'Celebrity not found');
   }
-  const user = await User.findById(payload.user_id);
+  const user = await User.findById(payload.userId);
 
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, 'User not found');
@@ -68,7 +68,7 @@ const deleteOrderCelebrityFromDB = async (id: string) => {
   }
   const result = await Celebrity.findByIdAndUpdate(
     id,
-    { isDelete: true },
+    { isDeleted: true },
     { runValidators: true },
   );
   return result;
@@ -90,7 +90,10 @@ const updatedOrderCelebrityInDB = async (
   const result = await OrderCelebrity.findByIdAndUpdate(
     id,
     { $set: payload },
-    { runValidators: true },
+    {
+      runValidators: true,
+      new: true,
+    },
   );
   return result;
 };

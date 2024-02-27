@@ -5,7 +5,7 @@ import { CelebrityServices } from './celebrity.service';
 
 const createCelebrity = catchAsync(async (req, res) => {
   const result = await CelebrityServices.createCelebrityInDB(
-    // req.file,
+    req.file,
     req.body,
   );
 

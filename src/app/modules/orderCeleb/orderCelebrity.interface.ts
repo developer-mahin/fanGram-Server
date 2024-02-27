@@ -1,14 +1,14 @@
 import { Types } from 'mongoose';
 
 export type TOrderCelebrity = {
-  celebrity_id: Types.ObjectId;
-  user_id: Types.ObjectId;
-  booking_for: string;
+  celebrityId: Types.ObjectId;
+  userId: Types.ObjectId;
+  bookingFor: string;
   occasion: string;
   bill: number;
-  billing_no: string;
-  billing_email: string;
+  billingNo: string;
+  billingEmail: string;
   script: string;
-  payment_completed: boolean;
+  paymentCompleted: boolean;
   isDeleted: boolean;
 };
