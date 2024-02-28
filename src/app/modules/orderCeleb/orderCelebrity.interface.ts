@@ -9,6 +9,7 @@ export type TOrderCelebrity = {
   billingNo: string;
   billingEmail: string;
   script: string;
-  paymentCompleted: boolean;
+  paymentVerificationImg: string;
+  status: 'none' | 'booked' | 'approved' | 'processing' | 'delivered';
   isDeleted: boolean;
 };

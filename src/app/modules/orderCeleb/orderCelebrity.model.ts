@@ -21,7 +21,12 @@ const orderCelebritySchema = new Schema<TOrderCelebrity>(
     billingNo: { type: String, required: [true, 'Contact required'] },
     billingEmail: { type: String, required: [true, 'Email required'] },
     script: { type: String, required: [true, 'Script required'] },
-    paymentCompleted: { type: Boolean, default: false },
+    paymentVerificationImg: { type: String },
+    status: {
+      type: String,
+      enum: ['none', 'booked', 'approved', 'processing', 'delivered'],
+      default: 'none',
+    },
     isDeleted: { type: Boolean, default: false },
   },
   {

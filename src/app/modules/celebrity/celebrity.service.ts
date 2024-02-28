@@ -74,8 +74,6 @@ const updatedCelebrityInDB = async (
     );
   }
 
-  console.log(payload);
-
   const result = await Celebrity.findByIdAndUpdate(
     id,
     { $set: payload },

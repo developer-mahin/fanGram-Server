@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import { Request, Router } from 'express';
+import { Router } from 'express';
 import { BannerImageController } from './bannerImg.controller';
 import validateRequest from '../../middlewares/validateRequest';
 import { BannerImageValidation } from './bannerImg.validation';

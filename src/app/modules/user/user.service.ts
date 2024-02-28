@@ -5,6 +5,7 @@ import { TUser } from './user.interface';
 import User from './user.model';
 import { sendEmail } from '../../utils/sendEmail';
 import VerifyCoupon, { TVerify } from '../verificationCode/verifycode.model';
+import mongoose from 'mongoose';
 
 const createAdminIntoDB = async (payload: TUser) => {
   const userExist = await User.findOne({ email: payload.email });
@@ -36,13 +37,12 @@ const createUserIntoDB = async (payload: TUser) => {
     );
   }
 
+  const session = await mongoose.startSession();
   try {
-    const user = await User.create(payload);
+    session.startTransaction();
     const subject = 'Reset your password within ten mins!';
 
     const randomDigit = Math.floor(1000 + Math.random() * 9000);
-
-    await VerifyCoupon.create({ email: user.email, code: randomDigit });
 
     const html = `
   <div className=${'mx-auto text-center'}>
@@ -52,10 +52,21 @@ const createUserIntoDB = async (payload: TUser) => {
   </div>
   `;
 
-    sendEmail(user.email, subject, html);
+    sendEmail(payload.email, subject, html);
+
+    const user = await User.create([payload], { session });
+
+    await VerifyCoupon.create([{ email: user[0].email, code: randomDigit }], {
+      session,
+    });
+
+    await session.commitTransaction();
+    await session.endSession();
 
     return user;
   } catch (error: any) {
+    await session.abortTransaction();
+    await session.endSession();
     throw new AppError(httpStatus.BAD_REQUEST, error.message);
   }
 };
