@@ -16,10 +16,9 @@ const userSchema = new Schema<TUser, UserModel>(
         values: ['male', 'female', 'other'],
         message: '{VALUE} is not a valid gender',
       },
-      required: [true, 'Gender is required'],
     },
     dateOfBirth: { type: String },
-    contactNo: { type: String, required: [true, 'Contact number is required'] },
+    contactNo: { type: String },
     password: {
       type: String,
       required: [true, 'password is required'],
@@ -32,6 +31,7 @@ const userSchema = new Schema<TUser, UserModel>(
     role: {
       type: String,
       enum: ['admin', 'user', 'superAdmin'],
+      default: 'user',
     },
     passwordUpdatedAt: {
       type: Date,
