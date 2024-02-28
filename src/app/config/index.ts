@@ -18,4 +18,5 @@ export default {
   default_password: process.env.DEFAULT_PASSWORD,
   super_admin_email: process.env.SUPER_ADMIN_EMAIL,
   super_admin_password: process.env.SUPER_ADMIN_PASSWORD,
+  reset_pass_ui_link: process.env.RESET_PASS_UI_LINK,
 };

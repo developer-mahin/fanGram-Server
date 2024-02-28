@@ -13,6 +13,7 @@ export type TUser = {
   isDeleted: boolean;
   role: 'admin' | 'user' | 'superAdmin';
   status: 'in-progress' | 'blocked';
+  verified: boolean;
   passwordUpdatedAt?: Date;
 };
 

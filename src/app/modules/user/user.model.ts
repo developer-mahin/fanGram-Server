@@ -32,6 +32,7 @@ const userSchema = new Schema<TUser, UserModel>(
     role: {
       type: String,
       enum: ['admin', 'user', 'superAdmin'],
+      default: 'user',
     },
     passwordUpdatedAt: {
       type: Date,
@@ -40,6 +41,10 @@ const userSchema = new Schema<TUser, UserModel>(
       type: String,
       enum: ['in-progress', 'blocked'],
       default: 'in-progress',
+    },
+    verified: {
+      type: Boolean,
+      default: false,
     },
   },
   {

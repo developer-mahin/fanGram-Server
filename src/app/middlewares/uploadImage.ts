@@ -62,7 +62,7 @@ export const videoUpload = multer({
       ) {
         cb(null, true);
       } else {
-        cb(new Error('Only .jpg, .png or .jpeg format allowed!'));
+        cb(new Error('Only .mp4, .mpeg or .quicktime format allowed!'));
       }
     } else {
       cb(new Error('There was an unknown error!'));
