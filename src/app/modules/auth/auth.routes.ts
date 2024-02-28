@@ -35,6 +35,20 @@ router.post(
   authControllers.changePassword,
 );
 
+router.post(
+  '/forget-password',
+  validateRequest(AuthValidation.forgetPasswordValidationSchema),
+  authControllers.forgetPassword,
+);
+
+router.post(
+  '/reset-password',
+  validateRequest(AuthValidation.forgetPasswordValidationSchema),
+  authControllers.resetPassword,
+);
+
+router.post('/verify-email', userController.updateUserAfterEmailVerify);
+
 router.get(
   '/profile',
   auth(USER_ROLE.superAdmin, USER_ROLE.manager, USER_ROLE.seller),

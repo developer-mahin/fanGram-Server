@@ -41,6 +41,10 @@ const userSchema = new Schema<TUser, UserModel>(
       enum: ['in-progress', 'blocked'],
       default: 'in-progress',
     },
+    verified: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

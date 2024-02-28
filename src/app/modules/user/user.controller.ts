@@ -25,7 +25,19 @@ const registerUser = catchAsync(async (req, res) => {
   });
 });
 
+const updateUserAfterEmailVerify = catchAsync(async (req, res) => {
+  const result = await userServices.updateUserInDbAfterEmailVerify(req.body);
+
+  sendResponse(res, {
+    status: httpStatus.CREATED,
+    success: true,
+    message: 'Verified Successfully',
+    data: result,
+  });
+});
+
 export const userController = {
   createAdmin,
   registerUser,
+  updateUserAfterEmailVerify,
 };
