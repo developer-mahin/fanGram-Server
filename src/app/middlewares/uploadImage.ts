@@ -17,8 +17,8 @@ const storage = multer.diskStorage({
         .replace(fileExt, '')
         .toLowerCase()
         .split(' ')
-        .join('-') +
-      '-' +
+        .join('_') +
+      '_' +
       Date.now();
 
     cb(null, fileName + fileExt);
@@ -29,7 +29,7 @@ const storage = multer.diskStorage({
 export const imageUpload = multer({
   storage: storage,
   limits: {
-    fileSize: 5000000, // 1MB
+    fileSize: 5000000,
   },
   fileFilter: (req, file, cb) => {
     if (file.fieldname === 'images' || file.fieldname === 'image') {
@@ -51,7 +51,7 @@ export const imageUpload = multer({
 export const videoUpload = multer({
   storage: storage,
   limits: {
-    fileSize: 200000000, // 1MB
+    fileSize: 200000000,
   },
   fileFilter: (req, file, cb) => {
     if (file.fieldname === 'videos') {
