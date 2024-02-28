@@ -1,5 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { Types } from 'mongoose';
+import AppError from './AppError';
+import httpStatus from 'http-status';
 
 type TJwtPayload = {
   userId: Types.ObjectId;
@@ -12,7 +15,11 @@ export const createJwtToken = (
   secretToken: string,
   expiresIn: string,
 ) => {
-  return jwt.sign(payload, secretToken, { expiresIn });
+  try {
+    return jwt.sign(payload, secretToken, { expiresIn });
+  } catch (error: any) {
+    throw new AppError(httpStatus.BAD_REQUEST, error?.message);
+  }
 };
 
 export const verifyToken = (token: string, secret: string) => {
