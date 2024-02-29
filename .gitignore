@@ -26,6 +26,7 @@ bower_components/
 dist/
 build/
 out/
+uploads/
 
 # Ignore environment-specific files
 .env
