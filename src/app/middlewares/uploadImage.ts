@@ -1,7 +1,7 @@
 import multer from 'multer';
 import path from 'path';
 
-const UPLOADS_FOLDER = 'src/uploads';
+const UPLOADS_FOLDER = './uploads';
 
 // var upload = multer({ dest: UPLOADS_FOLDER });
 
