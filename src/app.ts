@@ -7,6 +7,7 @@ import router from './app/routes';
 const app: Application = express();
 
 app.use(express.json());
+app.use('/uploads', express.static('uploads'));
 app.use(
   cors({
     // origin: 'https://profound-madeleine-be35a3.netlify.app',
