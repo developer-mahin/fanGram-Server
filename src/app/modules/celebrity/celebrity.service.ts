@@ -5,12 +5,15 @@ import { TCelebrity } from './celebrity.interface';
 import Celebrity from './celebrity.model';
 import QueryBuilder from '../../builder/QueryBuilder';
 
-const createCelebrityInDB = async (file: any, payload: TCelebrity) => {
+const createCelebrityInDB = async (files: any, payload: TCelebrity) => {
   const celebData = {
-    imgUrl: file.path,
+    imgUrl: files?.images[0].originalname,
+    videoUrl: files?.videos?.map((video: any) => ({
+      name: video.originalname,
+      path: video.path,
+    })),
     ...payload,
   };
-
   const result = await Celebrity.create(celebData);
   return result;
 };
@@ -55,6 +58,7 @@ const deleteCelebrityFromDB = async (id: string) => {
 
 const updatedCelebrityInDB = async (
   id: string,
+  file: any,
   payload: Partial<TCelebrity>,
 ) => {
   const product = await Celebrity.findById(id);
@@ -66,17 +70,38 @@ const updatedCelebrityInDB = async (
     throw new AppError(httpStatus.BAD_REQUEST, 'product not available');
   }
 
-  if (payload.hashtag) {
+  if (file) {
+    payload.imgUrl = file.originalname;
+  }
+
+  const { hashtag, offers, addonCost, ...rest } = payload;
+
+  const modifiedData = {
+    ...rest,
+  };
+
+  if (hashtag) {
     await Celebrity.findByIdAndUpdate(
       id,
-      { $addToSet: { hashtag: { $each: payload.hashtag } } },
+      { $addToSet: { hashtag: { $each: hashtag } } },
       { new: true },
     );
   }
 
+  if (offers && Object.keys(offers).length) {
+    for (const [key, value] of Object.entries(offers)) {
+      (modifiedData as Record<string, any>)[`offers.${key}`] = value;
+    }
+  }
+  if (addonCost && Object.keys(addonCost).length) {
+    for (const [key, value] of Object.entries(addonCost)) {
+      (modifiedData as Record<string, any>)[`addonCost.${key}`] = value;
+    }
+  }
+
   const result = await Celebrity.findByIdAndUpdate(
     id,
-    { $set: payload },
+    { $set: modifiedData },
     { new: true, runValidators: true },
   );
   return result;

@@ -5,10 +5,11 @@ import { USER_ROLE } from '../../constant';
 export type TUser = {
   _id?: Types.ObjectId;
   name: string;
-  gender: 'male' | 'female' | 'other';
-  dateOfBirth: string;
+  gender?: 'male' | 'female' | 'other';
+  dateOfBirth?: string;
   email: string;
-  contactNo: string;
+  contactNo?: string;
+  imgUrl: string;
   password: string;
   isDeleted: boolean;
   role: 'admin' | 'user' | 'superAdmin';

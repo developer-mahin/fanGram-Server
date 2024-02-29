@@ -29,7 +29,7 @@ const storage = multer.diskStorage({
 export const imageUpload = multer({
   storage: storage,
   limits: {
-    fileSize: 5000000, // 1MB
+    fileSize: 200000000, // 200MB
   },
   fileFilter: (req, file, cb) => {
     if (file.fieldname === 'images' || file.fieldname === 'image') {
@@ -42,19 +42,7 @@ export const imageUpload = multer({
       } else {
         cb(new Error('Only .jpg, .png or .jpeg format allowed!'));
       }
-    } else {
-      cb(new Error('There was an unknown error!'));
-    }
-  },
-});
-
-export const videoUpload = multer({
-  storage: storage,
-  limits: {
-    fileSize: 200000000, // 1MB
-  },
-  fileFilter: (req, file, cb) => {
-    if (file.fieldname === 'videos') {
+    } else if (file.fieldname === 'videos') {
       if (
         file.mimetype === 'video/mp4' ||
         file.mimetype === 'video/mpeg' ||
@@ -69,3 +57,25 @@ export const videoUpload = multer({
     }
   },
 });
+
+// export const videoUpload = multer({
+//   storage: storage,
+//   limits: {
+//     fileSize: 200000000, // 1MB
+//   },
+//   fileFilter: (req, file, cb) => {
+//     if (file.fieldname === 'videos') {
+//       if (
+//         file.mimetype === 'video/mp4' ||
+//         file.mimetype === 'video/mpeg' ||
+//         file.mimetype === 'video/quicktime'
+//       ) {
+//         cb(null, true);
+//       } else {
+//         cb(new Error('Only .mp4, .mpeg or .quicktime format allowed!'));
+//       }
+//     } else {
+//       cb(new Error('There was an unknown error!'));
+//     }
+//   },
+// });

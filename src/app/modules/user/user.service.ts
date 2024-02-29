@@ -5,6 +5,7 @@ import { TUser } from './user.interface';
 import User from './user.model';
 import { sendEmail } from '../../utils/sendEmail';
 import VerifyCoupon, { TVerify } from '../verificationCode/verifycode.model';
+import mongoose from 'mongoose';
 
 const createAdminIntoDB = async (payload: TUser) => {
   const userExist = await User.findOne({ email: payload.email });
@@ -36,13 +37,12 @@ const createUserIntoDB = async (payload: TUser) => {
     );
   }
 
+  const session = await mongoose.startSession();
   try {
-    const user = await User.create(payload);
-    const subject = 'Reset your password within ten mins!';
+    session.startTransaction();
+    const subject = 'Verification Code for FanGram';
 
     const randomDigit = Math.floor(1000 + Math.random() * 9000);
-
-    await VerifyCoupon.create({ email: user.email, code: randomDigit });
 
     const html = `
   <div className=${'mx-auto text-center'}>
@@ -52,10 +52,25 @@ const createUserIntoDB = async (payload: TUser) => {
   </div>
   `;
 
-    sendEmail(user.email, subject, html);
+    try {
+      await sendEmail(payload.email, subject, html);
+    } catch (error) {
+      throw new AppError(httpStatus.BAD_REQUEST, 'Email not sent');
+    }
+
+    const user = await User.create([payload], { session });
+
+    await VerifyCoupon.create([{ email: user[0].email, code: randomDigit }], {
+      session,
+    });
+
+    await session.commitTransaction();
+    await session.endSession();
 
     return user;
   } catch (error: any) {
+    await session.abortTransaction();
+    await session.endSession();
     throw new AppError(httpStatus.BAD_REQUEST, error.message);
   }
 };
@@ -64,7 +79,7 @@ const updateUserInDbAfterEmailVerify = async (payload: TVerify) => {
   const { email, code } = payload;
   const verify = await VerifyCoupon.findOne({ email: email });
   if (!verify) {
-    throw new AppError(httpStatus.BAD_REQUEST, 'Wrong Verification Code');
+    throw new AppError(httpStatus.BAD_REQUEST, 'Email Not Matched');
   }
   if (code === verify.code) {
     const user = await User.findOneAndUpdate(
@@ -76,7 +91,10 @@ const updateUserInDbAfterEmailVerify = async (payload: TVerify) => {
       },
       { new: true },
     );
+    await VerifyCoupon.deleteOne({ email: email });
     return user;
+  } else {
+    throw new AppError(httpStatus.BAD_REQUEST, 'Code Not Matched');
   }
 };
 

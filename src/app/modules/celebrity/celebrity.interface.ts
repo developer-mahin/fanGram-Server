@@ -16,6 +16,11 @@ export type TFaq = {
   isDeleted?: boolean;
 };
 
+export type TVideoUrl = {
+  name: string;
+  path: string;
+};
+
 export type TCelebrity = {
   celebrityName: string;
   bookingPrice: number;
@@ -26,7 +31,7 @@ export type TCelebrity = {
   faq: TFaq[];
   responseIn: string;
   imgUrl?: string;
-  videoUrl?: string;
+  videoUrl?: TVideoUrl[];
   verified: boolean;
   hashtag: string[];
   rating: number;
