@@ -6,13 +6,10 @@ const orderCelebritySchema = new Schema<TOrderCelebrity>(
     celebrityId: {
       type: Schema.Types.ObjectId,
       required: [true, 'Celebrity id is required'],
-      unique: true,
-      ref: 'User',
+      ref: 'Celebrity',
     },
     userId: {
       type: Schema.Types.ObjectId,
-      required: [true, 'User id is required'],
-      unique: true,
       ref: 'User',
     },
     bookingFor: { type: String, required: [true, 'Name required'] },
@@ -24,7 +21,7 @@ const orderCelebritySchema = new Schema<TOrderCelebrity>(
     paymentVerificationImg: { type: String },
     status: {
       type: String,
-      enum: ['none', 'booked', 'approved', 'processing', 'delivered'],
+      enum: ['none', 'approved', 'processing', 'delivered'],
       default: 'none',
     },
     isDeleted: { type: Boolean, default: false },

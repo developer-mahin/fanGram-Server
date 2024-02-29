@@ -30,7 +30,7 @@ router.post(
 
 router.post(
   '/change-password',
-  auth(USER_ROLE.superAdmin, USER_ROLE.manager, USER_ROLE.seller),
+  // auth(USER_ROLE.superAdmin, USER_ROLE.manager, USER_ROLE.seller),
   validateRequest(AuthValidation.changePasswordValidationSchema),
   authControllers.changePassword,
 );
@@ -51,7 +51,7 @@ router.post('/verify-email', userController.updateUserAfterEmailVerify);
 
 router.get(
   '/profile',
-  auth(USER_ROLE.superAdmin, USER_ROLE.manager, USER_ROLE.seller),
+  // auth(USER_ROLE.superAdmin, USER_ROLE.manager, USER_ROLE.seller),
   authControllers.getMyProfile,
 );
 

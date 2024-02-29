@@ -9,6 +9,7 @@ export type TUser = {
   dateOfBirth?: string;
   email: string;
   contactNo?: string;
+  imgUrl: string;
   password: string;
   isDeleted: boolean;
   role: 'admin' | 'user' | 'superAdmin';

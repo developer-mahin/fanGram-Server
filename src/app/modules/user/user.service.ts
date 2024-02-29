@@ -40,7 +40,7 @@ const createUserIntoDB = async (payload: TUser) => {
   const session = await mongoose.startSession();
   try {
     session.startTransaction();
-    const subject = 'Reset your password within ten mins!';
+    const subject = 'Verification Code for FanGram';
 
     const randomDigit = Math.floor(1000 + Math.random() * 9000);
 
@@ -52,7 +52,11 @@ const createUserIntoDB = async (payload: TUser) => {
   </div>
   `;
 
-    sendEmail(payload.email, subject, html);
+    try {
+      await sendEmail(payload.email, subject, html);
+    } catch (error) {
+      throw new AppError(httpStatus.BAD_REQUEST, 'Email not sent');
+    }
 
     const user = await User.create([payload], { session });
 
@@ -75,7 +79,7 @@ const updateUserInDbAfterEmailVerify = async (payload: TVerify) => {
   const { email, code } = payload;
   const verify = await VerifyCoupon.findOne({ email: email });
   if (!verify) {
-    throw new AppError(httpStatus.BAD_REQUEST, 'Wrong Verification Code');
+    throw new AppError(httpStatus.BAD_REQUEST, 'Email Not Matched');
   }
   if (code === verify.code) {
     const user = await User.findOneAndUpdate(
@@ -87,7 +91,10 @@ const updateUserInDbAfterEmailVerify = async (payload: TVerify) => {
       },
       { new: true },
     );
+    await VerifyCoupon.deleteOne({ email: email });
     return user;
+  } else {
+    throw new AppError(httpStatus.BAD_REQUEST, 'Code Not Matched');
   }
 };
 

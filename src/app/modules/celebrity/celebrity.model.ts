@@ -1,5 +1,11 @@
 import { Schema, model } from 'mongoose';
-import { TAddonCost, TCelebrity, TFaq, TOffer } from './celebrity.interface';
+import {
+  TAddonCost,
+  TCelebrity,
+  TFaq,
+  TOffer,
+  TVideoUrl,
+} from './celebrity.interface';
 
 const addonCostSchema = new Schema<TAddonCost>({
   remove_logo: { type: Number },
@@ -16,6 +22,10 @@ const offersSchema = new Schema<TOffer>({
 const faqSchema = new Schema<TFaq>({
   question: { type: String },
   answer: { type: String },
+});
+const videoUrlSchema = new Schema<TVideoUrl>({
+  name: { type: String },
+  path: { type: String },
 });
 
 const celebritySchema = new Schema<TCelebrity>(
@@ -35,7 +45,7 @@ const celebritySchema = new Schema<TCelebrity>(
       required: [true, 'Response Time is required'],
     },
     imgUrl: { type: String, required: [true, 'Image URL required'] },
-    videoUrl: { type: String },
+    videoUrl: [videoUrlSchema],
     verified: { type: Boolean, default: false },
     hashtag: { type: [String], required: [true, 'Hashtags required'] },
     rating: { type: Number, required: [true, 'Rating required'] },

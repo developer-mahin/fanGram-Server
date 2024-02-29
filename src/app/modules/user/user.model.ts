@@ -24,6 +24,7 @@ const userSchema = new Schema<TUser, UserModel>(
       required: [true, 'password is required'],
       select: 0,
     },
+    imgUrl: { type: String },
     isDeleted: {
       type: Boolean,
       default: false,

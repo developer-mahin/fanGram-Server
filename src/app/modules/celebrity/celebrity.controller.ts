@@ -4,8 +4,9 @@ import sendResponse from '../../utils/sendResponse';
 import { CelebrityServices } from './celebrity.service';
 
 const createCelebrity = catchAsync(async (req, res) => {
+  console.log(req.files);
   const result = await CelebrityServices.createCelebrityInDB(
-    req.file,
+    req.files,
     req.body,
   );
 
@@ -30,7 +31,11 @@ const deleteCelebrity = catchAsync(async (req, res) => {
 
 const updateCelebrity = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const result = await CelebrityServices.updatedCelebrityInDB(id, req.body);
+  const result = await CelebrityServices.updatedCelebrityInDB(
+    id,
+    req?.file,
+    req.body,
+  );
 
   sendResponse(res, {
     status: httpStatus.OK,

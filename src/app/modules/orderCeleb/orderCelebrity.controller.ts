@@ -4,9 +4,15 @@ import sendResponse from '../../utils/sendResponse';
 import { CelebrityServices } from './orderCelebrity.service';
 
 const createOrder = catchAsync(async (req, res) => {
+  const userId = req?.user?.userId;
+
+  const payload = {
+    userId,
+    ...req.body,
+  };
   const result = await CelebrityServices.createOrderCelebrityInDB(
-    // req.file,
-    req.body,
+    req.file,
+    payload,
   );
 
   sendResponse(res, {

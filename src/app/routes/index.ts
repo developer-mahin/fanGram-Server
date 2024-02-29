@@ -4,6 +4,7 @@ import { celebrityRoutes } from '../modules/celebrity/celebrity.routes';
 import { orderCelebrityRoutes } from '../modules/orderCeleb/orderCelebrity.routes';
 import { couponRoutes } from '../modules/coupon/coupon.routes';
 import { bannerImageRoutes } from '../modules/bannerImg/bannerImg.routes';
+import { recentlyVisitedRoutes } from '../modules/recentlyViewed/recentlyViewed.routes';
 
 const router = Router();
 
@@ -27,6 +28,11 @@ const userRouter = [
   {
     path: '/banner-img',
     routes: bannerImageRoutes,
+  },
+
+  {
+    path: '/recently-visited',
+    routes: recentlyVisitedRoutes,
   },
 ];
 
