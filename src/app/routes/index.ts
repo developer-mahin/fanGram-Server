@@ -5,6 +5,8 @@ import { orderCelebrityRoutes } from '../modules/orderCeleb/orderCelebrity.route
 import { couponRoutes } from '../modules/coupon/coupon.routes';
 import { bannerImageRoutes } from '../modules/bannerImg/bannerImg.routes';
 import { recentlyVisitedRoutes } from '../modules/recentlyViewed/recentlyViewed.routes';
+import { LatestWorkRoutes } from '../modules/LatestWork/latestWork.routes';
+import { homeFaqRoutes } from '../modules/homeFaq/homeFaq.routes';
 
 const router = Router();
 
@@ -29,10 +31,18 @@ const userRouter = [
     path: '/banner-img',
     routes: bannerImageRoutes,
   },
+  {
+    path: '/latestWork',
+    routes: LatestWorkRoutes,
+  },
 
   {
     path: '/recently-visited',
     routes: recentlyVisitedRoutes,
+  },
+  {
+    path: '/home-faq',
+    routes: homeFaqRoutes,
   },
 ];
 

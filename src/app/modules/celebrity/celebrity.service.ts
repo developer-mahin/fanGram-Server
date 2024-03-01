@@ -7,13 +7,14 @@ import QueryBuilder from '../../builder/QueryBuilder';
 
 const createCelebrityInDB = async (files: any, payload: TCelebrity) => {
   const celebData = {
-    imgUrl: files.images ? files?.images[0]?.originalname : '',
+    imgUrl: files.images ? files?.images[0]?.filename : '',
     videoUrl: files?.videos?.map((video: any) => ({
       name: video?.originalname,
-      path: video?.path,
+      path: video?.filename,
     })),
     ...payload,
   };
+
   const result = await Celebrity.create(celebData);
   return result;
 };

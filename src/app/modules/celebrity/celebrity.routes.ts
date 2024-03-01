@@ -39,7 +39,7 @@ router.patch(
   imageUpload.single('image'),
   (req: Request, res: Response, next: NextFunction) => {
     req.body = JSON.parse(req.body.data);
-    console.log(req.body);
+
     next();
   },
   CelebrityController.updateCelebrity,

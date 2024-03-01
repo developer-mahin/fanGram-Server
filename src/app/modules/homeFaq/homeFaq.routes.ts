@@ -25,4 +25,4 @@ router.delete(
   HomeFaqController.deleteHomeFaq,
 );
 
-export const bannerImageRoutes = router;
+export const homeFaqRoutes = router;
