@@ -17,19 +17,21 @@ export type TFaq = {
 };
 
 export type TVideoUrl = {
-  name: string;
-  path: string;
+  name?: string;
+  path?: string;
 };
 
 export type TCelebrity = {
+  id?: string;
   celebrityName: string;
   bookingPrice: number;
   meetingPrice?: number;
   addonCost?: TAddonCost;
   offers?: TOffer;
   featured: boolean;
-  faq: TFaq[];
+  faq?: TFaq[];
   responseIn: string;
+  earlyResponse: boolean;
   imgUrl?: string;
   videoUrl?: TVideoUrl[];
   verified: boolean;

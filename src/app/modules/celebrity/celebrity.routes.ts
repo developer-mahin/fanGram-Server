@@ -32,22 +32,23 @@ router.get(
   CelebrityController.getAllCelebrities,
 );
 
-router.delete(
-  '/:id',
-  // auth(USER_ROLE.user),
-  CelebrityController.deleteCelebrity,
-);
-
 router.patch(
-  '/:id',
+  '/',
   // auth(USER_ROLE.superAdmin, USER_ROLE.manager),
   // validateRequest(productValidation.updateProductValidationSchema),
   imageUpload.single('image'),
   (req: Request, res: Response, next: NextFunction) => {
     req.body = JSON.parse(req.body.data);
+    console.log(req.body);
     next();
   },
   CelebrityController.updateCelebrity,
+);
+
+router.delete(
+  '/:id',
+  // auth(USER_ROLE.user),
+  CelebrityController.deleteCelebrity,
 );
 
 router.get(

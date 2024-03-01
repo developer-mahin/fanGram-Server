@@ -7,10 +7,10 @@ import QueryBuilder from '../../builder/QueryBuilder';
 
 const createCelebrityInDB = async (files: any, payload: TCelebrity) => {
   const celebData = {
-    imgUrl: files?.images[0].originalname,
+    imgUrl: files.images ? files?.images[0]?.originalname : '',
     videoUrl: files?.videos?.map((video: any) => ({
-      name: video.originalname,
-      path: video.path,
+      name: video?.originalname,
+      path: video?.path,
     })),
     ...payload,
   };
@@ -56,11 +56,9 @@ const deleteCelebrityFromDB = async (id: string) => {
   return result;
 };
 
-const updatedCelebrityInDB = async (
-  id: string,
-  file: any,
-  payload: Partial<TCelebrity>,
-) => {
+const updatedCelebrityInDB = async (file: any, data: Partial<TCelebrity>) => {
+  const { id, ...payload } = data;
+
   const product = await Celebrity.findById(id);
   if (!product) {
     throw new AppError(httpStatus.BAD_REQUEST, 'Celebrity not found');
@@ -71,7 +69,7 @@ const updatedCelebrityInDB = async (
   }
 
   if (file) {
-    payload.imgUrl = file.originalname;
+    payload.imgUrl = file?.originalname;
   }
 
   const { hashtag, offers, addonCost, ...rest } = payload;
