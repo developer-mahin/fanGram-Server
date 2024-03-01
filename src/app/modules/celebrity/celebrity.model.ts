@@ -46,6 +46,7 @@ const celebritySchema = new Schema<TCelebrity>(
     },
     imgUrl: { type: String, required: [true, 'Image URL required'] },
     videoUrl: [videoUrlSchema],
+    earlyResponse: { type: Boolean, default: false },
     verified: { type: Boolean, default: false },
     hashtag: { type: [String], required: [true, 'Hashtags required'] },
     rating: { type: Number, required: [true, 'Rating required'] },

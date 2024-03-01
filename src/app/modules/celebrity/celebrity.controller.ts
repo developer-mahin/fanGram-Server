@@ -30,9 +30,7 @@ const deleteCelebrity = catchAsync(async (req, res) => {
 });
 
 const updateCelebrity = catchAsync(async (req, res) => {
-  const { id } = req.params;
   const result = await CelebrityServices.updatedCelebrityInDB(
-    id,
     req?.file,
     req.body,
   );
