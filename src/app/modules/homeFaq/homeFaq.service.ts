@@ -28,7 +28,7 @@ const getHomeFaqFromDB = async (query: Record<string, unknown>) => {
 const deleteHomeFaqFromDB = async (id: string) => {
   const faq = await HomeFaq.findById(id);
   if (!faq) {
-    throw new AppError(httpStatus.BAD_REQUEST, 'Image available with this id');
+    throw new AppError(httpStatus.BAD_REQUEST, 'Faq available with this id');
   }
 
   if (faq.isDeleted) {

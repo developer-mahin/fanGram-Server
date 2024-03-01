@@ -15,7 +15,7 @@ router.post(
     const imagesFile = req?.files?.images;
 
     const images = imagesFile?.map((file: Express.Multer.File) => ({
-      path: file.path,
+      path: file.filename,
     }));
 
     // req.body = JSON.stringify(images);

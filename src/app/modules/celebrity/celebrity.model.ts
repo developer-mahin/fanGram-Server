@@ -39,7 +39,7 @@ const celebritySchema = new Schema<TCelebrity>(
     addonCost: addonCostSchema,
     offers: offersSchema,
     featured: { type: Boolean, default: false },
-    faq: faqSchema,
+    faq: [faqSchema],
     responseIn: {
       type: String,
       required: [true, 'Response Time is required'],
