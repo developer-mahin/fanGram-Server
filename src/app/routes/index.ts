@@ -7,6 +7,7 @@ import { bannerImageRoutes } from '../modules/bannerImg/bannerImg.routes';
 import { recentlyVisitedRoutes } from '../modules/recentlyViewed/recentlyViewed.routes';
 import { LatestWorkRoutes } from '../modules/LatestWork/latestWork.routes';
 import { homeFaqRoutes } from '../modules/homeFaq/homeFaq.routes';
+import { TestimonialRoutes } from '../modules/testimonial/testimonial.routes';
 
 const router = Router();
 
@@ -43,6 +44,10 @@ const userRouter = [
   {
     path: '/home-faq',
     routes: homeFaqRoutes,
+  },
+  {
+    path: '/testimonial',
+    routes: TestimonialRoutes,
   },
 ];
 

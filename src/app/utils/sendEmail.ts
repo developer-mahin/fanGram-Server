@@ -6,7 +6,7 @@ import httpStatus from 'http-status';
 export const sendEmail = async (to: string, subject: string, html: string) => {
   const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com.',
-    port: 587,
+    port: 465,
     secure: config.NODE_ENV === 'production',
     auth: {
       // TODO: replace `user` and `pass` values from <https://forwardemail.net>
