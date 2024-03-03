@@ -10,13 +10,13 @@ import {
 const addonCostSchema = new Schema<TAddonCost>({
   remove_logo: { type: Number },
   hd_video: { type: Number },
+  effect: { type: Number },
+  dmDiscount: { type: Number },
 });
 
 const offersSchema = new Schema<TOffer>({
-  freeDm: { type: Boolean, default: false },
   discount: { type: Number },
   couponCode: { type: String },
-  dmDiscount: { type: Number },
 });
 
 const faqSchema = new Schema<TFaq>({
