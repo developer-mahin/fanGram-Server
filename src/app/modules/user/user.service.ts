@@ -77,11 +77,12 @@ const createUserIntoDB = async (payload: TUser) => {
 
 const updateUserInDbAfterEmailVerify = async (payload: TVerify) => {
   const { email, code } = payload;
+
   const verify = await VerifyCoupon.findOne({ email: email });
   if (!verify) {
     throw new AppError(httpStatus.BAD_REQUEST, 'Email Not Matched');
   }
-  if (code === verify.code) {
+  if (Number(code) === verify.code) {
     const user = await User.findOneAndUpdate(
       {
         email: email,
