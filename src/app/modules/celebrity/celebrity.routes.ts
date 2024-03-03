@@ -53,8 +53,8 @@ router.delete(
 
 router.get(
   '/:id',
-  auth(USER_ROLE.user),
-  recentlyVisitMiddleware(),
+  // auth(USER_ROLE.user),
+  // recentlyVisitMiddleware(),
   CelebrityController.getSingleCelebrity,
 );
 

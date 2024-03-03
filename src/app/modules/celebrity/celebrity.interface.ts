@@ -1,13 +1,13 @@
 export type TAddonCost = {
   remove_logo?: number;
   hd_video?: number;
+  effect?: number;
+  dmDiscount?: number;
 };
 
 export type TOffer = {
-  freeDm?: boolean;
   discount?: number;
   couponCode?: string;
-  dmDiscount?: number;
 };
 
 export type TFaq = {
