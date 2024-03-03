@@ -1,6 +1,5 @@
 /* eslint-disable no-undef */
 import { NextFunction, Request, Response, Router } from 'express';
-import validateRequest from '../../middlewares/validateRequest';
 import { imageUpload } from '../../middlewares/uploadImage';
 import { LatestWorkController } from './latestWork.controller';
 
